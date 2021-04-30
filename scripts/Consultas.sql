@@ -14,3 +14,7 @@ FROM usuario u
 INNER JOIN reserva r ON u.id_usuario = r.fk_idusuario
 GROUP BY u.id_usuario
 ORDER BY COUNT(r.fk_idusuario) DESC
+
+/Exibir os destinos mais procurados/
+SELECT imovel.cidade, COUNT(reserva.fk_Idimovel) AS maisprocurados FROM reserva  
+	JOIN imovel ON reserva.fk_idimovel=imovel.id_imovel GROUP BY cidade
