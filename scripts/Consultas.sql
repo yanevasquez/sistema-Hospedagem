@@ -1,9 +1,3 @@
-select * from acomodacao
-select * from imovel
-select * from imovel_acomodacao
-select * from reserva
-select * from tipo
-select * from usuario
 
 /Usuario onde profissão é nulo/
 SELECT * FROM usuario
@@ -20,6 +14,3 @@ FROM usuario u
 INNER JOIN reserva r ON u.id_usuario = r.fk_idusuario
 GROUP BY u.id_usuario
 ORDER BY COUNT(r.fk_idusuario) DESC
-
-insert into reserva (id_reserva, fk_Idusuario, fk_Idimovel, entrada, saida, preco)
-	values(4, 1, 1,'1-05-2021','03-05-2021', 1200.00);
