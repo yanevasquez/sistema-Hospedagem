@@ -8,7 +8,7 @@ create index entradaIn on reserva(entrada);
 create index saindaIn on reserva(saida);
 
 /* 3- Índice para status de disponibilidade da acomodação */
-create index statusIn on usuario(statusac);
+create index statusIn on acomodacao(statusac);
 
 /* Item 3.e - Reescrita de consultas */
 
