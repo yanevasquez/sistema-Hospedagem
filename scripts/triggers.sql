@@ -2,7 +2,7 @@
 
 
 /* 1- Trigger para realizar reserva somente se as datas estiverem disponíveis, ou seja, 
- só permite não permite reserva de outro cliente para datas iguais */
+não permite reserva de outro cliente para datas iguais */
 
 create or replace function validarDatasdeReservas() returns trigger
 as $$
