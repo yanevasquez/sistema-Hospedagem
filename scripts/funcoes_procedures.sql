@@ -1,7 +1,7 @@
 /* Item 3.f  Funções ou procedures armazenadas */
 
 
-/* Exibir o percentual de reservas feitas por profissão do usuário*/
+/* 1- Exibir o percentual de reservas feitas por profissão do usuário*/
 CREATE OR REPLACE PROCEDURE percentReservasPorProfissao()
 language plpgsql
 as $$

@@ -55,3 +55,5 @@ CREATE TABLE Tipo (
     FOREIGN KEY (fk_Idacomodacao) REFERENCES Acomodacao (id_acomodacao)
 );
 
+
+
