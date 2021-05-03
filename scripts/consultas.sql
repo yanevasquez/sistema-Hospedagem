@@ -29,6 +29,7 @@ select id_usuario from usuario except select fk_idusuario from reserva
 select i.nome as "Nome do imóvel", i.id_imovel as "código do imovel" from reserva r 
     right join imovel i on r.fk_idimovel=i.id_imovel 
 where r.fk_idimovel is null  
+
 /* 7- Preço Médio das reservas agrupados pelos bairros*/
 SELECT bairro AS "Bairro", ROUND(AVG(r.preco), 2) AS "Preço Médio das Reservas"
 FROM imovel i
