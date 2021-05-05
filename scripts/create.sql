@@ -1,7 +1,11 @@
+DROP DATABASE IF EXISTS hospedagem;
+
+CREATE DATABASE hospedagem;
+
 CREATE TABLE Usuario (
     id_usuario SERIAL NOT NULL PRIMARY KEY,
     nome VARCHAR (50) NOT NULL,
-    telefone CHAR(11) NOT NULL,
+    telefone CHAR(15) NOT NULL,
     profissao VARCHAR(40),
     aniversario DATE,
     email VARCHAR(40) NOT NULL,
@@ -11,7 +15,7 @@ CREATE TABLE Usuario (
 
 CREATE TABLE Imovel (
     id_imovel SERIAL NOT NULL PRIMARY KEY,
-    nome VARCHAR(40) NOT NULL,
+    descrição VARCHAR(40) NOT NULL,
     cidade VARCHAR(40) NOT NULL,
     bairro VARCHAR(30) NOT NULL,
     rua VARCHAR(30) NOT NULL,
@@ -55,5 +59,5 @@ CREATE TABLE Tipo (
     FOREIGN KEY (fk_Idacomodacao) REFERENCES Acomodacao (id_acomodacao)
 );
 
-
-
+ALTER TABLE Usuario
+  ALTER COLUMN telefone TYPE CHAR(15);
