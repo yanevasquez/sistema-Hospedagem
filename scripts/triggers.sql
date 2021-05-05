@@ -19,11 +19,11 @@ declare
 			dataSai:=i.saida;
 			for j in cursDentroIntervalo  loop
 				if ((dataEnt = new.entrada) and (dataSai = new.saida)) then
-				end if;
-			dentroInter:= j.dentro;
+					dentroInter:= j.dentro;
 				if ((new.entrada <= dentroInter) and (new.saida >= dentroInter)) then
 					raise exception 'exc';
 				end if;
+			end if;
 			end loop;
 			return new;
 		end loop;
@@ -43,3 +43,7 @@ select id_reserva, entrada, saida from reserva;
 
 --Teste de inserção de datas indisponíveis
 insert into reserva (id_reserva, fk_Idusuario, fk_Idimovel, entrada, saida, preco) values(20, 1, 4,'26-05-2021','30-05-2021', 1200.00);
+
+
+/* 2-  */
+

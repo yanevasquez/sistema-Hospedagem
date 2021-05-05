@@ -1,7 +1,7 @@
 /* Item 3.f  Funções ou procedures armazenadas */
 
 
-/* 1- Exibir o percentual de reservas feitas por profissão do usuário*/
+/* 1- Exibir o percentual de reservas feitas por profissão do usuário */
 CREATE OR REPLACE PROCEDURE percentReservasPorProfissao()
 language plpgsql
 as $$
@@ -33,3 +33,58 @@ end loop;
 END $$;
 
 call percentReservasPorProfissao();
+
+
+/* 2- Exibe o nome dos imóveis que estão disponíveis para as datas de entrada e a data de saída passadas 
+por parâmetros, caso não exist imóvel disponível uma exceção é lançada indicando indisponibilidade. */
+
+CREATE OR REPLACE FUNCTION exibeImoveisDisponiveis(dataEntrada date, dataSaida date )
+returns  varchar as $$
+
+declare 
+	exibirImoveis varchar;
+	validaImovel varchar;
+
+	cursorLi CURSOR for select i.nome as nomes from imovel i where NOT exists 
+		(select * from reserva r where r.fk_idimovel=i.id_imovel and r.saida > dataEntrada and r.entrada < dataSaida)	
+	UNION 
+	select i.nome from reserva r right join imovel i on r.fk_idimovel=i.id_imovel  where r.fk_idimovel is null 
+	EXCEPT
+	select i.nome  from reserva r 
+		join imovel i on r.fk_idimovel=i.id_imovel 
+		join imovel_acomodacao ia on i.id_imovel=ia.fk_idimovel 
+		join acomodacao a on ia.fk_idacomodacao=a.id_acomodacao 
+	where a.statusac='I';
+	
+BEGIN
+
+	select i.nome INTO validaImovel from imovel i where NOT exists 
+		(select * from reserva r where r.fk_idimovel=i.id_imovel and r.saida > dataEntrada and r.entrada < dataSaida)	
+	UNION
+	select i.nome  from reserva r right join imovel i on r.fk_idimovel=i.id_imovel  where r.fk_idimovel is null 
+	EXCEPT
+	select  i.nome  from reserva r join imovel i on r.fk_idimovel=i.id_imovel 
+		join imovel_acomodacao ia on i.id_imovel=ia.fk_idimovel 
+		join acomodacao a on ia.fk_idacomodacao=a.id_acomodacao where a.statusac='I';
+
+	if validaImovel is null then
+		raise exception 'go to exception';	
+		end if;
+
+	FOR vl in cursorli LOOP
+		exibirImoveis:=vl.nomes;
+		raise notice 'Imóvel disponível: %', exibirImoveis;
+	END LOOP;
+	exception
+		when raise_exception then
+			return 'Não existe imóveis disponíveis para reservar';
+END;	
+$$ language plpgsql;
+
+--Testes para checar status 
+select * from acomodacao
+update acomodacao set statusac='D' whEre id_acomodacao=5;
+select * from exibeImoveisDisponivel('05-03-2021', '06-03-2021')
+
+
+/* 3-  */
