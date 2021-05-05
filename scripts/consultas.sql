@@ -36,4 +36,6 @@ FROM imovel i
 INNER JOIN reserva r ON i.id_imovel = r.fk_idimovel
 GROUP BY i.bairro
 
-
+/* 8- Imoveis e suas reservas*/
+SELECT R.nome, R.entrada, R.saida, R.cidade FROM 
+(SELECT * FROM reserva r JOIN imovel i ON r.fk_idimovel=i.id_imovel) AS R
