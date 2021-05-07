@@ -8,3 +8,18 @@ create or replace view reservasPorMesAno (cliente, mes, ano, "Total de reservas"
 
 select * from reservasPorMesAno;
 
+/* 2- Uma visão de todos os imóveis que ainda não possuem reservas, exibir informacoes sobre 
+nome, cidade, bairro, preco, descricao da acomodacao, o tipo e quantidade para acomodar */
+create or replace view atributosImoveisSemReserva ("Nome do imóvel", cidade, bairro, caracteristicas, tipo, qtd) as    
+    select  i.nome, i.cidade, i.bairro, a.preco, a.descricao, t.descricao, a.quantidade from reserva r 
+        right join imovel i on r.fk_idimovel=i.id_imovel 
+        join imovel_acomodacao ia on i.id_imovel=ia.fk_idimovel 
+        join acomodacao a on ia.fk_idacomodacao=a.id_acomodacao  
+        join tipo t on a.fk_idtipo =t.id_tipo where r.fk_idimovel is null;
+
+select * from atributosImoveisSemReserva;
+
+/* 3-  */
+
+
+
