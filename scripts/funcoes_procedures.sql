@@ -84,7 +84,7 @@ $$ language plpgsql;
 --Testes para checar status 
 select * from acomodacao
 update acomodacao set statusac='D' whEre id_acomodacao=5;
-select * from exibeImoveisDisponivel('05-03-2021', '06-03-2021')
+select * from exibeImoveisDisponiveis('05-03-2021', '06-03-2021')
 
 
 /* 3-  */

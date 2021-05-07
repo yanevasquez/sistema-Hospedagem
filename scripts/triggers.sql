@@ -42,8 +42,7 @@ execute procedure validarDatasdeReservas()
 select id_reserva, entrada, saida from reserva;
 
 --Teste de inserção de datas indisponíveis
-insert into reserva (id_reserva, fk_Idusuario, fk_Idimovel, entrada, saida, preco) values(20, 1, 4,'26-05-2021','30-05-2021', 1200.00);
-
+insert into reserva (id_reserva, fk_Idusuario, fk_Idimovel, entrada, saida, preco) values(default, 1, 4,'28-05-2021','30-05-2021', 1200.00);
 
 /* 2-  */
 

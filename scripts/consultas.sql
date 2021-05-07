@@ -1,6 +1,5 @@
 /* Item 3.b- Criação e uso de objetos básicos */
 
-
 /* 1- Usuarios que não possui profissão cadastrada*/
 SELECT * FROM usuario
 WHERE profissao IS null
@@ -36,6 +35,8 @@ FROM imovel i
 INNER JOIN reserva r ON i.id_imovel = r.fk_idimovel
 GROUP BY i.bairro
 
-/* 8- Imoveis e suas reservas*/
-SELECT R.nome, R.entrada, R.saida, R.cidade FROM 
+/* 8- Exibir o nome dos moveis, a cidade e datas das suas reservas*/
+SELECT R.nome, R.cidade, R.entrada, R.saida FROM 
 (SELECT * FROM reserva r JOIN imovel i ON r.fk_idimovel=i.id_imovel) AS R
+
+
