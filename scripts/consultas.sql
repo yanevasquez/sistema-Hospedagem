@@ -39,4 +39,7 @@ GROUP BY i.bairro
 SELECT R.nome, R.cidade, R.entrada, R.saida FROM 
 (SELECT * FROM reserva r JOIN imovel i ON r.fk_idimovel=i.id_imovel) AS R
 
-
+/* 9- Rescrita Exibir o nome dos moveis, a cidade e datas das suas reservas*/
+SELECT i.id_imovel, i.nome AS "Nome", i.cidade AS "Cidade", r.entrada AS "Entrada", r.saida AS "Saída"
+FROM imovel i
+INNER JOIN reserva r ON i.id_imovel = r.fk_idimovel
