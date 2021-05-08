@@ -87,4 +87,22 @@ update acomodacao set statusac='D' whEre id_acomodacao=5;
 select * from exibeImoveisDisponiveis('05-03-2021', '06-03-2021')
 
 
-/* 3-  */
+/* 3- Procedure para exibir os meses que tem mais fluxo de reservas */
+
+CREATE OR REPLACE PROCEDURE mesesMaisReservas()
+language plpgsql
+as $$
+declare 
+	contagem interval ;
+	valores integer;
+	
+	cursorli cursor for select extract(month from entrada) as contagem, count(*) as total 
+	from reserva group by contagem order by total desc;	
+BEGIN	
+	raise notice 'Ranking  | Total de reservas';
+	for vlista in cursorli loop
+		raise notice '  Mês %    ----> %', vlista.contagem, vlista.total;
+	end loop;
+END $$;
+
+call mesesMaisReservas();

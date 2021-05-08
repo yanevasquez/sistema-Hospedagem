@@ -53,17 +53,17 @@ returns trigger AS $$
 	BEGIN
 		if (TG_OP = 'DELETE') then
 			update reserva set id_reserva = OLD.id_reserva where reserva.id_reserva = OLD.id_reserva 
-					and reserva.fk_idusuario = OLD.fk_idusuario
-					and reserva.fk_idimovel = OLD.fk_idimovel
-					and reserva.entrada = OLD.entrada 
-					and reserva.saida = OLD.saida;
+				and reserva.fk_idusuario = OLD.fk_idusuario
+				and reserva.fk_idimovel = OLD.fk_idimovel
+				and reserva.entrada = OLD.entrada 
+				and reserva.saida = OLD.saida;
 			return OLD;
 		elseif (TG_OP = 'INSERT') then 
 			update reserva set id_reserva = NEW.id_reserva where reserva.id_reserva = NEW.id_reserva
-				and reserva.fk_idusuario = new.fk_idusuario
-				and reserva.fk_idimovel = new.fk_idimovel
-				and reserva.entrada = new.entrada 
-				and reserva.saida = new.saida;
+				and reserva.fk_idusuario = NEW.fk_idusuario
+				and reserva.fk_idimovel = NEW.fk_idimovel
+				and reserva.entrada = NEW.entrada 
+				and reserva.saida = NEW.saida;
 			return NEW;
 		end if;
 	END;
@@ -78,3 +78,5 @@ EXECUTE PROCEDURE atualizarReserva();
 delete from reserva where id_reserva=11;
 insert into reserva (id_reserva, fk_Idusuario, fk_Idimovel, entrada, saida, preco) values(11, 1, 4,'28-05-2021','30-05-2021', 1200.00);
 select * from reserva
+
+/* 3- */
