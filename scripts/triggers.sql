@@ -79,4 +79,17 @@ delete from reserva where id_reserva=11;
 insert into reserva (id_reserva, fk_Idusuario, fk_Idimovel, entrada, saida, preco) values(11, 1, 4,'28-05-2021','30-05-2021', 1200.00);
 select * from reserva
 
-/* 3- */
+/* 3- Trigger para cadastramento de operações da tabela reserva*/
+CREATE OR REPLACE FUNCTION registraLog() 
+RETURNS TRIGGER 
+AS $$
+BEGIN 
+INSERT INTO EmpLog values(USER, SUBSTRING(TG_OP,1,1), NOW()) 
+RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER insertLog
+AFTER INSERT OR UPDATE OR DELETE ON reserva
+FOR EACH ROW EXECUTE PROCEDURE registraLog()
