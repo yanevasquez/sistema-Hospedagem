@@ -30,6 +30,7 @@ CREATE TABLE Reserva (
     entrada DATE NOT NULL,
     saida DATE NOT NULL,
     preco NUMERIC(15, 2) NOT NULL,
+    CHECK (entrada <= saida),
     FOREIGN KEY (fk_Idusuario) REFERENCES Usuario (id_usuario),
     FOREIGN KEY (fk_Idimovel) REFERENCES Imovel (id_imovel)
 );
