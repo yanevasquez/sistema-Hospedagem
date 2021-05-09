@@ -8,7 +8,7 @@ create or replace view reservasPorMesAno (cliente, mes, ano, "Total de reservas"
 
 select * from reservasPorMesAno;
 
-/* 2- Uma visão de todos os imóveis que ainda não possuem reservas, exibir informacoes sobre 
+/* 2- Uma visão de todos os imóveis que ainda não possuem reservas, exibe informacoes sobre 
 nome, cidade, bairro, preco, descricao da acomodacao, o tipo e quantidade para acomodar */
 create or replace view atributosImoveisSemReserva ("Nome do imóvel", cidade, bairro, caracteristicas, tipo, qtd) as    
     select  i.nome, i.cidade, i.bairro, a.preco, a.descricao, t.descricao, a.quantidade from reserva r 
@@ -19,7 +19,19 @@ create or replace view atributosImoveisSemReserva ("Nome do imóvel", cidade, ba
 
 select * from atributosImoveisSemReserva;
 
-/* 3-  */
+/* 3- View com check option que só permite insercao se o status da acomodacao a inserir for do tipo 'D' disponível,
+a view irá exibir código, codigo do tipo, nome, a descricao, preco, quantidade e staus das acomodações */
+create or replace view statusAcomodacao(codigo, imovel, descricao, preco, status, quant, codtipo) as
+	select ac.id_acomodacao, ac.nome, ac.descricao, ac.preco, ac.statusac, ac.fk_idtipo, ac.quantidade from acomodacao ac where ac.statusac='D'
+	with check option;
+
+--Testes
+select * from statusAcomodacao;
+
+insert into statusAcomodacao (codigo, imovel, descricao, preco, status, quant, codtipo) 
+	values (79, 'Cabana', 'Chalé com cama box, cozinha compacta, banheiro, varanda', '310','D', 1, 1);
+
+
 
 
 
