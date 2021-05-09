@@ -106,3 +106,25 @@ BEGIN
 END $$;
 
 call mesesMaisReservas();
+
+/* 4- Procedure que conta quantas vendas fez cada imovel */
+CREATE OR REPLACE PROCEDURE Estatisticavendas(nomeimovel varchar(40))
+LANGUAGE plpgsql
+AS $$
+DECLARE
+contador integer := 0;
+BEGIN
+  Select Count(*) Into contador 
+  From imovel i Join reserva r On i.id_imovel = r.fk_idusuario
+  Where i.nome = nomeimovel;
+  IF contador = 0 THEN
+  	 Raise Exception 'Imovel inexistente';
+  END IF;
+  Raise Notice '% Fez % das vendas', nomeimovel, contador;
+  EXCEPTION 
+  	 When Raise_Exception Then
+	   Raise exception 'Imovel inexistente';
+     When Others Then
+       Raise exception 'Erro desconhecido';
+END $$;
+
