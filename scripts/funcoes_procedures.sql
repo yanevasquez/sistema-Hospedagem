@@ -1,5 +1,4 @@
-/* Item 3.f  Funções ou procedures armazenadas */
-
+/* Item 3.f  Function ou procedures armazenadas */
 
 /* 1- Exibir o percentual de reservas feitas por profissão do usuário */
 CREATE OR REPLACE PROCEDURE percentReservasPorProfissao()
@@ -36,7 +35,7 @@ call percentReservasPorProfissao();
 
 
 /* 2- Exibe o nome dos imóveis que estão disponíveis para as datas de entrada e a data de saída passadas 
-por parâmetros, caso não exist imóvel disponível uma exceção é lançada indicando indisponibilidade. */
+por parâmetros, caso não exista imóvel disponível uma exceção é lançada indicando indisponibilidade. */
 
 CREATE OR REPLACE FUNCTION exibeImoveisDisponiveis(dataEntrada date, dataSaida date )
 returns  varchar as $$
@@ -87,7 +86,7 @@ update acomodacao set statusac='D' whEre id_acomodacao=5;
 select * from exibeImoveisDisponiveis('05-03-2021', '06-03-2021')
 
 
-/* 3- Procedure para exibir os meses que tem mais fluxo de reservas */
+/* 3- Procedure para exibir os meses com mais fluxo de reservas */
 
 CREATE OR REPLACE PROCEDURE mesesMaisReservas()
 language plpgsql
