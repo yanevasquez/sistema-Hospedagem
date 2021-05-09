@@ -35,11 +35,17 @@ FROM imovel i
 INNER JOIN reserva r ON i.id_imovel = r.fk_idimovel
 GROUP BY i.bairro
 
-/* 8- Exibir o nome dos moveis, a cidade e datas das suas reservas*/
+/* 8- Exibir a média de idade dos usuário cadastrados no sistema. Exibir apenas o nome e 
+profissao onde essa média de idade seja superior a <=30 anos */
+SELECT nome, profissao, AVG(date_part('year', age(aniversario))) Idade FROM usuario GROUP BY nome, profissao
+HAVING AVG(date_part('year',age(aniversario))) <= 30;
+
+/* 9- Exibir o nome dos moveis, a cidade e datas das suas reservas*/
 SELECT R.nome, R.cidade, R.entrada, R.saida FROM 
 (SELECT * FROM reserva r JOIN imovel i ON r.fk_idimovel=i.id_imovel) AS R
 
-/* 9- Rescrita Exibir o nome dos moveis, a cidade e datas das suas reservas*/
-SELECT i.id_imovel, i.nome AS "Nome", i.cidade AS "Cidade", r.entrada AS "Entrada", r.saida AS "Saída"
-FROM imovel i
-INNER JOIN reserva r ON i.id_imovel = r.fk_idimovel
+    /* Rescrita da consulta 9 */
+    SELECT i.id_imovel, i.nome AS "Nome", i.cidade AS "Cidade", r.entrada AS "Entrada", r.saida AS "Saída"
+    FROM imovel i
+    INNER JOIN reserva r ON i.id_imovel = r.fk_idimovel
+

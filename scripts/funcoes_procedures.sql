@@ -106,27 +106,28 @@ END $$;
 
 call mesesMaisReservas();
 
-/* 4- Procedure que conta quantas vendas fez cada imovel */
+/* 4- Procedure que conta quantas vendas fez cada imovel e caso não exista a exceção é lançada */
 CREATE OR REPLACE PROCEDURE Estatisticavendas(nomeimovel varchar(40))
 LANGUAGE plpgsql
 AS $$
 DECLARE
 contador integer := 0;
 BEGIN
-  Select Count(*) Into contador 
-  From imovel i Join reserva r On i.id_imovel = r.fk_idusuario
-  Where i.nome = nomeimovel;
-  IF contador = 0 THEN
-  	Raise Exception Raise_Exception;
-  END IF;
+	Select Count(*) Into contador 
+	From imovel i Join reserva r On i.id_imovel = r.fk_idusuario
+	Where i.nome = nomeimovel;
+	IF contador = 0 THEN
+		Raise Exception Raise_Exception;
+	END IF;
 
-  Raise Notice '% Fez % reservas', nomeimovel, contador;
+	Raise Notice '% Fez % reservas', nomeimovel, contador;
 
-  EXCEPTION 
-  	When Raise_Exception Then
-	  Raise exception 'Esse imovel não fez nenhuma venda ou não existe.';
+	EXCEPTION 
+	When Raise_Exception Then
+		Raise exception 'Esse imovel não fez nenhuma venda ou não existe.';
     When Others Then
-      Raise exception 'Erro desconhecido';
+		Raise exception 'Erro desconhecido';
 END $$;
 
+call Estatisticavendas('Casa na praia');
 
