@@ -117,13 +117,16 @@ BEGIN
   From imovel i Join reserva r On i.id_imovel = r.fk_idusuario
   Where i.nome = nomeimovel;
   IF contador = 0 THEN
-  	 Raise Exception 'Imovel inexistente';
+  	Raise Exception Raise_Exception;
   END IF;
-  Raise Notice '% Fez % das vendas', nomeimovel, contador;
+
+  Raise Notice '% Fez % reservas', nomeimovel, contador;
+
   EXCEPTION 
-  	 When Raise_Exception Then
-	   Raise exception 'Imovel inexistente';
-     When Others Then
-       Raise exception 'Erro desconhecido';
+  	When Raise_Exception Then
+	  Raise exception 'Esse imovel não fez nenhuma venda ou não existe.';
+    When Others Then
+      Raise exception 'Erro desconhecido';
 END $$;
+
 
