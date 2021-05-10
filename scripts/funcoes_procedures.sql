@@ -36,7 +36,6 @@ call percentReservasPorProfissao();
 
 /* 2- Exibe o nome dos imóveis que estão disponíveis para as datas de entrada e a data de saída passadas 
 por parâmetros, caso não exista imóvel disponível uma exceção é lançada indicando indisponibilidade. */
-
 CREATE OR REPLACE FUNCTION exibeImoveisDisponiveis(dataEntrada date, dataSaida date )
 returns  varchar as $$
 
@@ -87,7 +86,6 @@ select * from exibeImoveisDisponiveis('05-03-2021', '06-03-2021')
 
 
 /* 3- Procedure para exibir os meses com mais fluxo de reservas */
-
 CREATE OR REPLACE PROCEDURE mesesMaisReservas()
 language plpgsql
 as $$

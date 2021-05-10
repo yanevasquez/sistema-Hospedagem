@@ -1,9 +1,7 @@
 /* Item 3.g Triggers
 
-
 /* 1- Trigger para realizar reserva somente se as datas estiverem disponíveis, ou seja, 
 não permite reserva de outro cliente para datas iguais */
-
 create or replace function validarDatasdeReservas() returns trigger
 as $$
 declare 
@@ -46,7 +44,6 @@ insert into reserva (id_reserva, fk_Idusuario, fk_Idimovel, entrada, saida, prec
 
 
 /* 2- Trigger para permitir a atualização dos dados da reserva */
-
 create or replace function atualizarReserva()
 returns trigger AS $$
 	declare 
@@ -80,8 +77,9 @@ insert into reserva (id_reserva, fk_Idusuario, fk_Idimovel, entrada, saida, prec
 select * from reserva
 
 /* 3- Trigger para armazenar infos do usuário do banco e quais as operações de insert, update e delete foram feitas na tabela reserva */
-/*Criando a tabela de log de operações na tabela reserva*/
-CREATE TABLE Reservalog(usuario varchar(20), operacao char(1), datahora timestamp)
+
+--Criando a tabela de log de operações na tabela reserva
+CREATE TABLE Reservalog(usuario varchar(20), operacao char(1), datahora timestamp);
 
 CREATE OR REPLACE FUNCTION registraLog() 
 RETURNS TRIGGER 

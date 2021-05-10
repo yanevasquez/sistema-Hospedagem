@@ -8,7 +8,7 @@ create or replace view reservasPorMesAno (cliente, mes, ano, "Total de reservas"
 
 select * from reservasPorMesAno;
 
-/* 2- Uma visão de todos os imóveis que ainda não possuem reservas, exibe informacoes sobre 
+/* 2- Uma visão dos imóveis que ainda não possuem reservas, exibindo informacoes sobre 
 nome, cidade, bairro, preco, descricao da acomodacao, o tipo e quantidade para acomodar */
 create or replace view atributosImoveisSemReserva ("Nome do imóvel", cidade, bairro, caracteristicas, tipo, qtd) as    
     select  i.nome, i.cidade, i.bairro, a.preco, a.descricao, t.descricao, a.quantidade from reserva r 
