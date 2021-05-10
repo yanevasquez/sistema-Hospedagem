@@ -35,42 +35,23 @@ FROM imovel i
 INNER JOIN reserva r ON i.id_imovel = r.fk_idimovel
 GROUP BY i.bairro
 
-/* 8- Exibir o nome dos moveis, a cidade e datas das suas reservas*/
-SELECT R.nome, R.cidade, R.entrada, R.saida FROM 
-(SELECT * FROM reserva r JOIN imovel i ON r.fk_idimovel=i.id_imovel) AS R
+/* 8- Exibir a média de idade dos usuário cadastrados no sistema. Exibir apenas o nome e 
+profissao onde essa média de idade seja menor ou igual 30 anos */
+SELECT nome, profissao, AVG(date_part('year', age(aniversario))) Idade FROM usuario GROUP BY nome, profissao
+HAVING AVG(date_part('year',age(aniversario))) <= 30;
 
-/* Com subquery */
-SELECT imovel.nome, imovel.cidade,
-(
-	SELECT entrada
-	FROM reserva
-	WHERE imovel.id_imovel = reserva.fk_idimovel LIMIT 1
-),
-(
-	SELECT saida
-	FROM reserva
-	WHERE imovel.id_imovel = reserva.fk_idimovel LIMIT 1
-)
-FROM imovel
-GROUP BY imovel.id_imovel
+/* 9- Exibir o nome dos moveis, a cidade e datas das suas reservas*/
+	SELECT R.nome, R.cidade, R.entrada, R.saida FROM 
+    	(SELECT * FROM reserva r JOIN imovel i ON r.fk_idimovel=i.id_imovel) AS R
 
-/* 9- Rescrita Exibir o nome dos moveis, a cidade e datas das suas reservas*/
-SELECT i.id_imovel, i.nome AS "Nome", i.cidade AS "Cidade", r.entrada AS "Entrada", r.saida AS "Saída"
-FROM imovel i
-INNER JOIN reserva r ON i.id_imovel = r.fk_idimovel
+    /* Rescrita da consulta 9 */
+	SELECT i.nome AS "Nome", i.cidade AS "Cidade", r.entrada AS "Entrada", r.saida AS "Saída"
+    FROM imovel i
+    INNER JOIN reserva r ON i.id_imovel = r.fk_idimovel
 
-/* 10- Exibir os nomes dos usuarios, valor das reservas e quantidade de reservas - versão subquery*/
-SELECT u.nome, 
-(
-	SELECT COUNT(r.fk_idusuario)
-	FROM reserva r
-	WHERE u.id_usuario = r.fk_idusuario
-) AS "Número de Reservas", 
-(
-	SELECT SUM(r.preco) 
-	FROM reserva r
-	WHERE u.id_usuario = r.fk_idusuario
-) AS "Valor da reserva"
-FROM usuario u
-GROUP BY u.id_usuario
-ORDER BY "Número de Reservas" DESC
+    /* Justificativa: O uso de join na reescrita fornece um resultado mais rápido porque 
+    quando comparado a subquery temos que a projecao só irá exibir os resultados quando a 
+    consulta mais interna for realizada.
+    */
+
+/* 10 - */

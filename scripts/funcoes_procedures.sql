@@ -1,5 +1,4 @@
-/* Item 3.f  Funções ou procedures armazenadas */
-
+/* Item 3.f  Function ou procedures armazenadas */
 
 /* 1- Exibir o percentual de reservas feitas por profissão do usuário */
 CREATE OR REPLACE PROCEDURE percentReservasPorProfissao()
@@ -36,8 +35,7 @@ call percentReservasPorProfissao();
 
 
 /* 2- Exibe o nome dos imóveis que estão disponíveis para as datas de entrada e a data de saída passadas 
-por parâmetros, caso não exist imóvel disponível uma exceção é lançada indicando indisponibilidade. */
-
+por parâmetros, caso não exista imóvel disponível uma exceção é lançada indicando indisponibilidade. */
 CREATE OR REPLACE FUNCTION exibeImoveisDisponiveis(dataEntrada date, dataSaida date )
 returns  varchar as $$
 
@@ -87,8 +85,7 @@ update acomodacao set statusac='D' whEre id_acomodacao=5;
 select * from exibeImoveisDisponiveis('05-03-2021', '06-03-2021')
 
 
-/* 3- Procedure para exibir os meses que tem mais fluxo de reservas */
-
+/* 3- Procedure para exibir os meses com mais fluxo de reservas */
 CREATE OR REPLACE PROCEDURE mesesMaisReservas()
 language plpgsql
 as $$
@@ -106,3 +103,29 @@ BEGIN
 END $$;
 
 call mesesMaisReservas();
+
+/* 4- Procedure que conta quantas vendas fez cada imovel e caso não exista a exceção é lançada */
+CREATE OR REPLACE PROCEDURE Estatisticavendas(nomeimovel varchar(40))
+LANGUAGE plpgsql
+AS $$
+DECLARE
+contador integer := 0;
+BEGIN
+	Select Count(*) Into contador 
+	From imovel i Join reserva r On i.id_imovel = r.fk_idusuario
+	Where i.nome = nomeimovel;
+	IF contador = 0 THEN
+		Raise Exception Raise_Exception;
+	END IF;
+
+	Raise Notice '% Fez % reservas', nomeimovel, contador;
+
+	EXCEPTION 
+	When Raise_Exception Then
+		Raise exception 'Esse imovel não fez nenhuma venda ou não existe.';
+    When Others Then
+		Raise exception 'Erro desconhecido';
+END $$;
+
+call Estatisticavendas('Casa na praia');
+

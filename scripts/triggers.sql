@@ -1,9 +1,7 @@
 /* Item 3.g Triggers
 
-
 /* 1- Trigger para realizar reserva somente se as datas estiverem disponíveis, ou seja, 
 não permite reserva de outro cliente para datas iguais */
-
 create or replace function validarDatasdeReservas() returns trigger
 as $$
 declare 
@@ -17,13 +15,13 @@ declare
 		for i in cursEntrSaida loop
 			dataEnt:=i.entrada;
 			dataSai:=i.saida;
-			for j in cursDentroIntervalo  loop
+			for j in cursDentroIntervalo loop
 				if ((dataEnt = new.entrada) and (dataSai = new.saida)) then
-					dentroInter:= j.dentro;
+				end if;
+				dentroInter:= j.dentro;
 				if ((new.entrada <= dentroInter) and (new.saida >= dentroInter)) then
 					raise exception 'exc';
 				end if;
-			end if;
 			end loop;
 			return new;
 		end loop;
@@ -42,11 +40,10 @@ execute procedure validarDatasdeReservas()
 select id_reserva, entrada, saida from reserva;
 
 --Teste de inserção de datas indisponíveis
-insert into reserva (id_reserva, fk_Idusuario, fk_Idimovel, entrada, saida, preco) values(default, 1, 4,'28-05-2021','30-05-2021', 1200.00);
+insert into reserva (id_reserva, fk_Idusuario, fk_Idimovel, entrada, saida, preco) values(55, 1, 4,'02-06-2022','04-06-2022', 1200.00);
 
 
-/* 2- Trigger para permitir ser feito a atualização dos dados da reserva */
-
+/* 2- Trigger para permitir a atualização dos dados da reserva */
 create or replace function atualizarReserva()
 returns trigger AS $$
 	declare 
@@ -80,8 +77,9 @@ insert into reserva (id_reserva, fk_Idusuario, fk_Idimovel, entrada, saida, prec
 select * from reserva
 
 /* 3- Trigger para armazenar infos do usuário do banco e quais as operações de insert, update e delete foram feitas na tabela reserva */
-/*Criando a tabela de log de operações na tabela reserva*/
-CREATE TABLE Reservalog(usuario varchar(20), operacao char(1), datahora timestamp)
+
+--Criando a tabela de log de operações na tabela reserva
+CREATE TABLE Reservalog(usuario varchar(20), operacao char(1), datahora timestamp);
 
 CREATE OR REPLACE FUNCTION registraLog() 
 RETURNS TRIGGER 
