@@ -33,7 +33,6 @@ END $$;
 
 call percentReservasPorProfissao();
 
-
 /* 2- Exibe o nome dos imóveis que estão disponíveis para as datas de entrada e a data de saída passadas 
 por parâmetros, caso não exista imóvel disponível uma exceção é lançada indicando indisponibilidade. */
 CREATE OR REPLACE FUNCTION exibeImoveisDisponiveis(dataEntrada date, dataSaida date )
@@ -90,7 +89,7 @@ CREATE OR REPLACE PROCEDURE mesesMaisReservas()
 language plpgsql
 as $$
 declare 
-	contagem interval ;
+	contagem interval;
 	valores integer;
 	
 	cursorli cursor for select extract(month from entrada) as contagem, count(*) as total 

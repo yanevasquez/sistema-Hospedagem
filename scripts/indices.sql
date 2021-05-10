@@ -1,6 +1,5 @@
 /* Item 3.d - Índices  */
 
-
 /* 1- Índice para a data de entrada (checkin) da reserva */
 create index entradaIn on reserva(entrada);
 

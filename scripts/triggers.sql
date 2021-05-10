@@ -39,9 +39,14 @@ execute procedure validarDatasdeReservas()
 
 select id_reserva, entrada, saida from reserva;
 
---Teste de inserção de datas indisponíveis
-insert into reserva (id_reserva, fk_Idusuario, fk_Idimovel, entrada, saida, preco) values(55, 1, 4,'02-06-2022','04-06-2022', 1200.00);
+/*Teste de inserção de datas*/
 
+--dentro do intervalo de datas
+insert into reserva (id_reserva, fk_Idusuario, fk_Idimovel, entrada, saida, preco) values(888, 1, 4,'02-06-2021','03-06-2021', 1200.00);
+--mesma data
+insert into reserva (id_reserva, fk_Idusuario, fk_Idimovel, entrada, saida, preco) values(999, 1, 4,'28-05-2021','30-05-2021', 1200.00);
+--data nova
+insert into reserva (id_reserva, fk_Idusuario, fk_Idimovel, entrada, saida, preco) values(555, 1, 4,'02-06-2024','03-06-2024', 1200.00);
 
 /* 2- Trigger para permitir a atualização dos dados da reserva */
 create or replace function atualizarReserva()
