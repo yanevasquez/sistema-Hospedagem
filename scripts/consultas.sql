@@ -39,7 +39,38 @@ GROUP BY i.bairro
 SELECT R.nome, R.cidade, R.entrada, R.saida FROM 
 (SELECT * FROM reserva r JOIN imovel i ON r.fk_idimovel=i.id_imovel) AS R
 
+/* Com subquery */
+SELECT imovel.nome, imovel.cidade,
+(
+	SELECT entrada
+	FROM reserva
+	WHERE imovel.id_imovel = reserva.fk_idimovel LIMIT 1
+),
+(
+	SELECT saida
+	FROM reserva
+	WHERE imovel.id_imovel = reserva.fk_idimovel LIMIT 1
+)
+FROM imovel
+GROUP BY imovel.id_imovel
+
 /* 9- Rescrita Exibir o nome dos moveis, a cidade e datas das suas reservas*/
 SELECT i.id_imovel, i.nome AS "Nome", i.cidade AS "Cidade", r.entrada AS "Entrada", r.saida AS "Saída"
 FROM imovel i
 INNER JOIN reserva r ON i.id_imovel = r.fk_idimovel
+
+/* 10- Exibir os nomes dos usuarios, valor das reservas e quantidade de reservas - versão subquery*/
+SELECT u.nome, 
+(
+	SELECT COUNT(r.fk_idusuario)
+	FROM reserva r
+	WHERE u.id_usuario = r.fk_idusuario
+) AS "Número de Reservas", 
+(
+	SELECT SUM(r.preco) 
+	FROM reserva r
+	WHERE u.id_usuario = r.fk_idusuario
+) AS "Valor da reserva"
+FROM usuario u
+GROUP BY u.id_usuario
+ORDER BY "Número de Reservas" DESC
